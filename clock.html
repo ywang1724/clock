@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Clock</title>
+	<style type="text/css">
+		.clock {
+			width: 828px;
+			height: 828px;
+			background: url(clock1.png) no-repeat;
+			background-position: -200px -60px;
+			display: none;
+		}
+		.second {
+			position: absolute;
+			top: 145px;
+			left: 370px;
+			width: 32px;
+			height: 322px;
+			background: url(clock1.png) no-repeat;
+			background-position: -25px -465px;
+			transform-origin: 50% 74%;
+			-ms-transform-origin: 50% 74%;
+		    -webkit-transform-origin: 50% 74%;
+		    -moz-transform-origin: 50% 74%;
+		    -o-transform-origin: 50% 74%;
+		}
+		.minute {
+			position: absolute;
+			top: 180px;
+			left: 370px;
+			width: 32px;
+			height: 221px;
+			background: url(clock1.png) no-repeat;
+			background-position: -72px -500px;
+			transform-origin: 50% 92%;
+			-ms-transform-origin: 50% 92%;
+		    -webkit-transform-origin: 50% 92%;
+		    -moz-transform-origin: 50% 92%;
+		    -o-transform-origin: 50% 92%;
+		}
+		.hour {
+			position: absolute;
+			top: 240px;
+			left: 370px;
+			width: 32px;
+			height: 162px;
+			background: url(clock1.png) no-repeat;
+			background-position: -120px -559px;
+			transform-origin: 50% 89%;
+			-ms-transform-origin: 50% 89%;
+		    -webkit-transform-origin: 50% 89%;
+		    -moz-transform-origin: 50% 89%;
+		    -o-transform-origin: 50% 89%;
+		}
+	</style>
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script type="text/javascript" src="jquery.rotate.js"></script>
+	<script type="text/javascript">
+		function Clock(dom) {
+			$(dom).append("<div class='clock'><div class='hour'></div><div class='minute'></div><div class='second'></div></div>");
+		}
+		Clock.prototype.setTime = function(hour, minute, second) {
+			hour = hour >= 12 ? hour - 12 : hour;
+			$(".hour").css('rotate', hour * (360 / 12) + (360 / (12 * 60)) * minute + (360 / (12 * 60 * 60)) * second);
+			$(".minute").css('rotate', (360 / 60) * minute + (360 / 3600) * second);
+			$(".second").css('rotate', second * 360 / 60);
+			$(".clock").show();
+		}
+		Clock.prototype.run = function() {
+			var that = this;
+			setInterval(function() {
+				var time = new Date();
+            	that.setTime(time.getHours(), time.getMinutes(), time.getSeconds());
+	        }, 1000);
+		}
+		$(function() {
+			var ele = document.getElementById("dom");
+			var newClock = new Clock(ele);
+			newClock.run();
+		});
+	</script>
+</head>
+<body>
+	<div id="dom"></div>
+</body>
+</html>
